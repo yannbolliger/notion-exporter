@@ -7,9 +7,17 @@ interface Task {
   status: { exportURL?: string }
 }
 
+/** Lightweight client to export ZIP, Markdown or CSV files from a Notion block/page. */
 export default class NotionExporter {
   protected readonly client: AxiosInstance
 
+  /**
+   * Create a new NotionExporter client. If you want to export blocks/pages from
+   * non-public pages you need to provide the token of a user who has read
+   * access to the corresponding pages.
+   *
+   * @param token – the Notion 'token_v2' Cookie value
+   */
   constructor(token?: string) {
     const cookies = token
       ? {
@@ -23,6 +31,11 @@ export default class NotionExporter {
     })
   }
 
+  /**
+   * Adds a an 'exportBlock' task to the Notion API's queue of tasks.
+   *
+   * @returns The task's id
+   */
   async getTaskId(blockId: string): Promise<string> {
     const res = await this.client.post("enqueueTask", {
       task: {
@@ -61,14 +74,32 @@ export default class NotionExporter {
       setTimeout(poll, pollInterval)
     })
 
+  /**
+   * Starts an export of the given block and
+   *
+   * @returns The URL of the exported ZIP archive
+   */
   getZipUrl = (blockId: string): Promise<string> =>
     this.getTaskId(blockId).then(this.pollTask)
 
+  /**
+   * Downloads the ZIP at the given URL.
+   *
+   * @returns The ZIP as an 'AdmZip' object
+   */
   getZip = async (url: string): Promise<AdmZip> => {
     const res = await this.client.get(url, { responseType: "arraybuffer" })
     return new AdmZip(res.data)
   }
 
+  /**
+   * Exports the given block as ZIP and downloads it. Returns the matched file
+   * in the ZIP as a string.
+   *
+   * @param blockId
+   * @param predicate - Returns true for the zip entry to be extracted
+   * @returns The matched file as string
+   */
   async getFileString(
     blockId: string,
     predicate: (entry: AdmZip.IZipEntry) => boolean
@@ -78,9 +109,19 @@ export default class NotionExporter {
     return entry?.getData().toString().trim() || Promise.reject()
   }
 
+  /**
+   * Downloads and extracts the first CSV file of the exported block as string.
+   *
+   * @returns The extracted CSV string
+   */
   getCsvString = (blockId: string): Promise<string> =>
     this.getFileString(blockId, (e) => e.name.endsWith(".csv"))
 
+  /**
+   * Downloads and extracts the first Markdown file of the exported block as string.
+   *
+   * @returns The extracted Markdown string
+   */
   getMdString = (blockId: string): Promise<string> =>
     this.getFileString(blockId, (e) => e.name.endsWith(".md"))
 }

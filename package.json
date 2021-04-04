@@ -15,7 +15,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "tsdx test",
+    "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint src",
     "prepare": "tsdx build",
     "size": "size-limit",
@@ -25,15 +25,12 @@
     "adm-zip": "^0.5.5",
     "axios": "^0.21.1"
   },
-  "peerDependencies": {
-    "adm-zip": "0.x"
-  },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",
     "@types/adm-zip": "^0.4.33",
-    "@types/node": "^14.14.37",
     "husky": "^6.0.0",
     "prettier": "^2.2.1",
+    "prettier-plugin-jsdoc": "^0.3.18",
     "size-limit": "^4.10.2",
     "tsdx": "^0.14.1",
     "tslib": "^2.1.0",
