@@ -1,0 +1,51 @@
+{
+  "name": "notion-exporter",
+  "author": "Yann Bolliger",
+  "repository": "github.com/yannbolliger/notion-exporter",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "module": "dist/notion-exporter.esm.js",
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.5",
+    "axios": "^0.21.1"
+  },
+  "peerDependencies": {},
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^4.10.2",
+    "husky": "^6.0.0",
+    "size-limit": "^4.10.2",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.1.0",
+    "typescript": "^4.2.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "size-limit": [
+    {
+      "path": "dist/notion-exporter.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/notion-exporter.esm.js",
+      "limit": "10 KB"
+    }
+  ]
+}
