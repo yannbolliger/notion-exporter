@@ -11,11 +11,12 @@
     "src"
   ],
   "module": "dist/notion-exporter.esm.js",
+  "bin": "./dist/index.js",
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test",
-    "lint": "tsdx lint",
+    "lint": "tsdx lint src",
     "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why"
@@ -24,10 +25,15 @@
     "adm-zip": "^0.5.5",
     "axios": "^0.21.1"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "adm-zip": "0.x"
+  },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",
+    "@types/adm-zip": "^0.4.33",
+    "@types/node": "^14.14.37",
     "husky": "^6.0.0",
+    "prettier": "^2.2.1",
     "size-limit": "^4.10.2",
     "tsdx": "^0.14.1",
     "tslib": "^2.1.0",
@@ -35,7 +41,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "tsdx lint"
+      "pre-commit": "tsdx lint src"
     }
   },
   "size-limit": [
