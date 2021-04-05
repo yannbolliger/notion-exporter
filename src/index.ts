@@ -1,9 +1,9 @@
 import sade from "sade"
 
 import NotionExporter from "./NotionExporter"
-export default NotionExporter
-
 import action, { FileType } from "./action"
+
+export default NotionExporter
 
 export const cli = (args: string[]) => {
   const pkg = require("../package.json")
