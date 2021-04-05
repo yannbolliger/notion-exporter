@@ -1,7 +1,10 @@
 {
   "name": "notion-exporter",
   "author": "Yann Bolliger",
-  "repository": "github.com/yannbolliger/notion-exporter",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yannbolliger/notion-exporter.git"
+  },
   "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",
@@ -16,7 +19,7 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test",
-    "lint": "tsdx lint src",
+    "lint": "tsdx lint",
     "prepare": "tsdx build"
   },
   "dependencies": {
