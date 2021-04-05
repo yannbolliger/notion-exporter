@@ -4,4 +4,4 @@
 
 // Manually created bin file as an entry-point into the CLI.
 // Inspired by prettier.
-require("../dist").main(process.argv.slice(2))
+require("../dist").cli(process.argv)
