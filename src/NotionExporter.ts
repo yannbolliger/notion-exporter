@@ -1,10 +1,20 @@
 import axios, { AxiosInstance } from "axios"
 import AdmZip from "adm-zip"
+import { validate } from "uuid"
 
 interface Task {
   id: string
   state: string
   status: { exportURL?: string }
+}
+
+const validateUuid = (str: string): string | undefined => {
+  if (validate(str)) return str
+  const withDashes = str.replace(
+    /(.{8})(.{4})(.{4})(.{4})(.+)/,
+    "$1-$2-$3-$4-$5"
+  )
+  return validate(withDashes) ? withDashes : undefined
 }
 
 /** Lightweight client to export ZIP, Markdown or CSV files from a Notion block/page. */
@@ -33,11 +43,14 @@ export default class NotionExporter {
    * @returns The task's id
    */
   async getTaskId(blockId: string): Promise<string> {
+    const id = validateUuid(blockId)
+    if (!id) return Promise.reject("Invalid blockId.")
+
     const res = await this.client.post("enqueueTask", {
       task: {
         eventName: "exportBlock",
         request: {
-          blockId,
+          blockId: id,
           recursive: false,
           exportOptions: {
             exportType: "markdown",

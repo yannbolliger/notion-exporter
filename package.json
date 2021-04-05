@@ -23,11 +23,13 @@
   },
   "dependencies": {
     "adm-zip": "^0.5.5",
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",
     "@types/adm-zip": "^0.4.33",
+    "@types/uuid": "^8.3.0",
     "husky": "^6.0.0",
     "prettier": "^2.2.1",
     "prettier-plugin-jsdoc": "^0.3.18",
