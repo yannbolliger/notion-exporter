@@ -8,7 +8,7 @@ interface Task {
   status: { exportURL?: string }
 }
 
-const validateUuid = (str: string): string | undefined => {
+export const validateUuid = (str: string): string | undefined => {
   if (validate(str)) return str
   const withDashes = str.replace(
     /(.{8})(.{4})(.{4})(.{4})(.+)/,
