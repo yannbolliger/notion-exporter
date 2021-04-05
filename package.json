@@ -33,6 +33,7 @@
     "@types/sade": "^1.7.2",
     "@types/uuid": "^8.3.0",
     "husky": "^6.0.0",
+    "np": "^7.4.0",
     "prettier": "^2.2.1",
     "prettier-plugin-jsdoc": "^0.3.18",
     "tsdx": "^0.14.1",
