@@ -1,6 +1,6 @@
 import sade from "sade"
 
-import NotionExporter from "./NotionExporter"
+import { NotionExporter } from "./NotionExporter"
 import action, { FileType } from "./action"
 
 export default NotionExporter

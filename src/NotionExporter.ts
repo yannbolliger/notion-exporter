@@ -18,7 +18,7 @@ export const validateUuid = (str: string): string | undefined => {
 }
 
 /** Lightweight client to export ZIP, Markdown or CSV files from a Notion block/page. */
-export default class NotionExporter {
+export class NotionExporter {
   protected readonly client: AxiosInstance
 
   /**

@@ -1,7 +1,7 @@
 import rl from "readline"
 import { AxiosError } from "axios"
 
-import NotionExporter from "./NotionExporter"
+import { NotionExporter } from "./NotionExporter"
 
 export const FileType = ["md", "csv"] as const
 type FileType = typeof FileType[number]
