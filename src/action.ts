@@ -11,7 +11,7 @@ const isFileType = (s: string): s is FileType => FileType.includes(s as any)
 const askToken = (): Promise<string> => {
   const prompt = rl.createInterface({
     input: process.stdin,
-    output: process.stdout,
+    output: process.stderr,
   })
   const promise = new Promise<string>((resolve) =>
     prompt.question("Paste your NOTION_TOKEN:\n", (token) => {

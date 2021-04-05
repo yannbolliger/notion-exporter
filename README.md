@@ -16,7 +16,8 @@ npm install -g notion-exporter
 notion-exporter 3af0a1e347dd40c5ba0a2c91e234b2a5 -t csv > list.csv
 ```
 
-For more options, try `notion-exporter --help`.
+For more options, try `notion-exporter --help` and read about the
+[`NOTION_TOKEN`](#token--block-ids).
 
 ## Library
 
@@ -40,7 +41,8 @@ most accurate information.
 
 #### Constructor
 
-Provide the `NOTION_TOKEN` as authentification to create a new exporter client.
+Provide the [`NOTION_TOKEN`](#token--block-ids) as authentification to create a
+new exporter client.
 
 ```ts
 const exporter = new NotionExporter(token: string)
@@ -121,4 +123,4 @@ use-case? Please submit issues and PRs on Github.
 
 ### Contributors
 
-- Yann Bolliger, @yannbolliger.
+- Yann Bolliger, [@yannbolliger](https://github.com/yannbolliger).
