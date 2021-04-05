@@ -12,22 +12,18 @@ export default class NotionExporter {
   protected readonly client: AxiosInstance
 
   /**
-   * Create a new NotionExporter client. If you want to export blocks/pages from
-   * non-public pages you need to provide the token of a user who has read
-   * access to the corresponding pages.
+   * Create a new NotionExporter client. To export any blocks/pages from
+   * Notion.so one needs to provide the token of a user who has read access to
+   * the corresponding pages.
    *
    * @param token – the Notion 'token_v2' Cookie value
    */
-  constructor(token?: string) {
-    const cookies = token
-      ? {
-          Cookie: `token_v2=${token}; `,
-        }
-      : {}
-
+  constructor(token: string) {
     this.client = axios.create({
       baseURL: "https://www.notion.so/api/v3/",
-      headers: { ...cookies },
+      headers: {
+        Cookie: `token_v2=${token}; `,
+      },
     })
   }
 
@@ -69,7 +65,7 @@ export default class NotionExporter {
         if (task.state === "success" && task.status.exportURL)
           resolve(task.status.exportURL)
         else if (task.state === "in_progress") setTimeout(poll, pollInterval)
-        else reject()
+        else reject("Export task failed.")
       }
       setTimeout(poll, pollInterval)
     })
@@ -106,7 +102,10 @@ export default class NotionExporter {
   ): Promise<string> {
     const zip = await this.getZipUrl(blockId).then(this.getZip)
     const entry = zip.getEntries().find(predicate)
-    return entry?.getData().toString().trim() || Promise.reject()
+    return (
+      entry?.getData().toString().trim() ||
+      Promise.reject("Could not find file in ZIP.")
+    )
   }
 
   /**
