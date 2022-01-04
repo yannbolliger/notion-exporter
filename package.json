@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "adm-zip": "^0.5.5",
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "sade": "^1.7.4",
     "uuid": "^8.3.2"
   },
@@ -33,7 +33,7 @@
     "@types/sade": "^1.7.2",
     "@types/uuid": "^8.3.0",
     "husky": "^6.0.0",
-    "np": "^7.4.0",
+    "np": "^7.6.0",
     "prettier": "^2.2.1",
     "prettier-plugin-jsdoc": "^0.3.18",
     "tsdx": "^0.14.1",
