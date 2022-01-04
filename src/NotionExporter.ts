@@ -50,7 +50,7 @@ export class NotionExporter {
       task: {
         eventName: "exportBlock",
         request: {
-          blockId: id,
+          block: { id },
           recursive: false,
           exportOptions: {
             exportType: "markdown",
