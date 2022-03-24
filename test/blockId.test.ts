@@ -1,4 +1,4 @@
-import { validateUuid } from "../src/NotionExporter"
+import { blockIdFromUrl, validateUuid } from "../src/blockId"
 
 describe("Validate UUID with and without dashes", () => {
   it("Validates with dashes", () => {
@@ -29,5 +29,38 @@ describe("Validate UUID with and without dashes", () => {
       validateUuid("d9428888122b11e1b85c61cd3cbb3210000000000000")
     ).toBeUndefined()
     expect(validateUuid("d9428888122b1")).toBeUndefined()
+  })
+})
+
+describe("Extract UUID from Notion URL", () => {
+  it("Leaves an already correct UUID as is", () => {
+    expect(blockIdFromUrl("e0603b592edc45f7acc7b0cccd6656e1")).toEqual(
+      "e0603b592edc45f7acc7b0cccd6656e1"
+    )
+    expect(blockIdFromUrl("a981a0c2-68b1-35dc-bcfc-296e52ab01ec")).toEqual(
+      "a981a0c2-68b1-35dc-bcfc-296e52ab01ec"
+    )
+  })
+
+  it("Correctly extracts page UUID from notion.site URL", () => {
+    expect(
+      blockIdFromUrl(
+        "https://extremely-funny-6da.notion.site/Document-4bc7b56833914eb684bd82418dc1bbb2"
+      )
+    ).toBe("4bc7b56833914eb684bd82418dc1bbb2")
+
+    expect(
+      blockIdFromUrl(
+        "https://www.notion.so/Notion-Official-83715d7703ee4b8699b5e659a4712dd8"
+      )
+    ).toBe("83715d7703ee4b8699b5e659a4712dd8")
+  })
+
+  it("Correctly extracts DB UUID from notion.site URL", () => {
+    expect(
+      blockIdFromUrl(
+        "https://crazy-cargo-3f7.notion.site/2cb6b1a682f44183bfcc61f0f59d51d3?v=8e1d9421236342889dd71b37c66652bb"
+      )
+    ).toBe("2cb6b1a682f44183bfcc61f0f59d51d3")
   })
 })

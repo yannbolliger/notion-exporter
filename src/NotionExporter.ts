@@ -1,20 +1,12 @@
 import axios, { AxiosInstance } from "axios"
 import AdmZip from "adm-zip"
-import { validate } from "uuid"
+
+import { validateUuid } from "./blockId"
 
 interface Task {
   id: string
   state: string
   status: { exportURL?: string }
-}
-
-export const validateUuid = (str: string): string | undefined => {
-  if (validate(str)) return str
-  const withDashes = str.replace(
-    /(.{8})(.{4})(.{4})(.{4})(.+)/,
-    "$1-$2-$3-$4-$5"
-  )
-  return validate(withDashes) ? withDashes : undefined
 }
 
 /** Lightweight client to export ZIP, Markdown or CSV files from a Notion block/page. */
