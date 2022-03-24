@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios"
 import AdmZip from "adm-zip"
 
-import { validateUuid } from "./blockId"
+import { blockIdFromUrl, validateUuid } from "./blockId"
 
 interface Task {
   id: string
@@ -32,11 +32,12 @@ export class NotionExporter {
   /**
    * Adds a an 'exportBlock' task to the Notion API's queue of tasks.
    *
+   * @param idOrUrl BlockId or URL of the page/block/DB to export
    * @returns The task's id
    */
-  async getTaskId(blockId: string): Promise<string> {
-    const id = validateUuid(blockId)
-    if (!id) return Promise.reject("Invalid blockId.")
+  async getTaskId(idOrUrl: string): Promise<string> {
+    const id = validateUuid(blockIdFromUrl(idOrUrl))
+    if (!id) return Promise.reject(`Invalid URL or blockId: ${idOrUrl}`)
 
     const res = await this.client.post("enqueueTask", {
       task: {
@@ -78,10 +79,11 @@ export class NotionExporter {
   /**
    * Starts an export of the given block and
    *
+   * @param idOrUrl BlockId or URL of the page/block/DB to export
    * @returns The URL of the exported ZIP archive
    */
-  getZipUrl = (blockId: string): Promise<string> =>
-    this.getTaskId(blockId).then(this.pollTask)
+  getZipUrl = (idOrUrl: string): Promise<string> =>
+    this.getTaskId(idOrUrl).then(this.pollTask)
 
   /**
    * Downloads the ZIP at the given URL.
@@ -97,15 +99,15 @@ export class NotionExporter {
    * Exports the given block as ZIP and downloads it. Returns the matched file
    * in the ZIP as a string.
    *
-   * @param blockId
+   * @param idOrUrl BlockId or URL of the page/block/DB to export
    * @param predicate - Returns true for the zip entry to be extracted
    * @returns The matched file as string
    */
   async getFileString(
-    blockId: string,
+    idOrUrl: string,
     predicate: (entry: AdmZip.IZipEntry) => boolean
   ): Promise<string> {
-    const zip = await this.getZipUrl(blockId).then(this.getZip)
+    const zip = await this.getZipUrl(idOrUrl).then(this.getZip)
     const entry = zip.getEntries().find(predicate)
     return (
       entry?.getData().toString().trim() ||
@@ -116,16 +118,18 @@ export class NotionExporter {
   /**
    * Downloads and extracts the first CSV file of the exported block as string.
    *
+   * @param idOrUrl BlockId or URL of the page/block/DB to export
    * @returns The extracted CSV string
    */
-  getCsvString = (blockId: string): Promise<string> =>
-    this.getFileString(blockId, (e) => e.name.endsWith(".csv"))
+  getCsvString = (idOrUrl: string): Promise<string> =>
+    this.getFileString(idOrUrl, (e) => e.name.endsWith(".csv"))
 
   /**
    * Downloads and extracts the first Markdown file of the exported block as string.
    *
+   * @param idOrUrl BlockId or URL of the page/block/DB to export
    * @returns The extracted Markdown string
    */
-  getMdString = (blockId: string): Promise<string> =>
-    this.getFileString(blockId, (e) => e.name.endsWith(".md"))
+  getMdString = (idOrUrl: string): Promise<string> =>
+    this.getFileString(idOrUrl, (e) => e.name.endsWith(".md"))
 }

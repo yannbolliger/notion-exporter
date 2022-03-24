@@ -8,6 +8,7 @@ describe("Validate UUID with and without dashes", () => {
     expect(validateUuid("90123e1c-7512-523e-bb28-76fab9f2f73d")).toEqual(
       "90123e1c-7512-523e-bb28-76fab9f2f73d"
     )
+    expect(validateUuid(undefined)).toBeUndefined()
     expect(validateUuid("")).toBeUndefined()
     expect(validateUuid("    ")).toBeUndefined()
     expect(validateUuid("invalid uuid string")).toBeUndefined()
