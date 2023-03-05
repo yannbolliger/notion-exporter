@@ -71,7 +71,10 @@ export class NotionExporter {
         if (task.state === "success" && task.status.exportURL)
           resolve(task.status.exportURL)
         else if (task.state === "in_progress") setTimeout(poll, pollInterval)
-        else reject("Export task failed.")
+        else {
+          console.error(taskId, task)
+          reject(`Export task failed: ${taskId}.`)
+        }
       }
       setTimeout(poll, pollInterval)
     })
