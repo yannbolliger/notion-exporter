@@ -70,8 +70,9 @@ export class NotionExporter {
         const task = await this.getTask(taskId)
         if (task.state === "success" && task.status.exportURL)
           resolve(task.status.exportURL)
-        else if (task.state === "in_progress") setTimeout(poll, pollInterval)
-        else {
+        else if (task.state === "in_progress" || task.state === "not_started") {
+          setTimeout(poll, pollInterval)
+        } else {
           console.error(taskId, task)
           reject(`Export task failed: ${taskId}.`)
         }
