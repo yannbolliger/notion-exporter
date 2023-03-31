@@ -18,13 +18,14 @@ export class NotionExporter {
    * Notion.so one needs to provide the token of a user who has read access to
    * the corresponding pages.
    *
-   * @param token – the Notion 'token_v2' Cookie value
+   * @param tokenV2 – the Notion `token_v2` Cookie value
+   * @param fileToken – the Notion `file_token` Cookie value
    */
-  constructor(token: string) {
+  constructor(tokenV2: string, fileToken: string) {
     this.client = axios.create({
       baseURL: "https://www.notion.so/api/v3/",
       headers: {
-        Cookie: `token_v2=${token}; `,
+        Cookie: `token_v2=${tokenV2};file_token=${fileToken}`,
       },
     })
   }

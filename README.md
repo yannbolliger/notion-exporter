@@ -1,15 +1,15 @@
 # Notion Exporter 🛫
 
 A simple CLI tool and TypeScript library for exporting Markdown and CSV files
-from any [Notion.so](https://notion.so) page. The tool relies on the stable
-export feature of Notion's API, hence you get exactly the Markdown and CSV you'd
+from any [Notion.so](https://notion.so) page. The tool relies on the export
+feature of Notion's web-app, hence you get exactly the Markdown and CSV you'd
 get from clicking through: _••• > Export > Markdown & CSV, no subpages, OK._
 
 ## CLI
 
-The CLI let's you download pages as part of any bash script, build step or
-content pipeline. For example, you can use Notion as a CMS to write your blog,
-export the Markdown in a Github action and build a static Hugo page. 🎉
+The CLI let's you download pages as part of any script, build step or content
+pipeline. For example, you can use Notion as a CMS to write your blog, export
+the Markdown in a Github action and build a static Hugo page. 🎉
 
 ```bash
 npm install -g notion-exporter
@@ -17,21 +17,22 @@ notion-exporter 3af0a1e347dd40c5ba0a2c91e234b2a5 -t csv > list.csv
 ```
 
 For more options, try `notion-exporter --help` and read about the
-[`NOTION_TOKEN`](#token--block-ids).
+[needed Cookies](#needed-cookies).
 
 ## Library
 
 With the library you can do more elaborate things like directly parse and use
-your CSV, inject the Markdown in any React/next.js/Vue page or directly interact
-with the [`AdmZip`](https://github.com/cthackers/adm-zip) object.
+your CSV, inject the Markdown in any React/Next.js/Vue page or interact with the
+underlying [`AdmZip`](https://github.com/cthackers/adm-zip) object.
 
 ```ts
 import NotionExporter from "notion-exporter"
 
-const token = ...
+const tokenV2 = ...
+const fileToken = ...
 const blockId = "3af0a1e347dd40c5ba0a2c91e234b2a5"
 
-await new NotionExporter(token).getMdString(blockId)
+await new NotionExporter(tokenV2, fileToken).getMdString(blockId)
 ```
 
 ### API
@@ -41,11 +42,11 @@ most accurate information.
 
 #### Constructor
 
-Provide the [`NOTION_TOKEN`](#token--block-ids) as authentification to create a
+Provide the [required Cookies](#needed-cookies) as authentification to create a
 new exporter client.
 
 ```ts
-const exporter = new NotionExporter(token: string)
+const exporter = new NotionExporter(tokenV2: string, fileToken: string)
 ```
 
 #### Methods
@@ -67,21 +68,21 @@ exporter.getZipUrl(blockId: string): Promise<string>
 exporter.getZip(url: string): Promise<AdmZip>
 ```
 
-## Token & Block IDs
+## Needed Cookies
 
-To export anything from Notion's API, one needs to authenticate oneself with the
-so called `NOTION_TOKEN`. That token is the value of the Cookie `token_v2` that
-is set on all requests of a logged in user when using the Notion Web-App.
+To export anything from Notion, one needs to authenticate oneself with some
+Cookies (like a browser would). These cookies are called `token_v2` and
+`file_token`. They are set on all requests of a logged in user when using the
+Notion web-app.
 
-### How to retrieve the `NOTION_TOKEN`?
+### How to retrieve the Cookies?
 
 - Go to [notion.so](https://notion.so).
 - Log in with your account.
-- Open the developer tools of your browser, open the network tab. (You may need
-  to reload the page now.)
-- Click on any request to `https://www.notion.so/api/v3/*` and look at the
-  Cookie tab.
-- Copy the value of the Cookie called `token_v2`. **This is your token**. 🚀
+- Open the developer tools of your browser, open Application > Storage > Cookies
+  (Chrome); Storage tab (Firefox).
+- Copy the value of the Cookies called `token_v2` and `file_token` and paste
+  them somewhere safe.
 
 ### How to get the block ID of a page?
 
