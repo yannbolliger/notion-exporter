@@ -50,6 +50,7 @@ export class NotionExporter {
             exportType: "markdown",
             timeZone: "Europe/Zurich",
             locale: "en",
+            collectionViewExportType: "all",
           },
         },
       },
