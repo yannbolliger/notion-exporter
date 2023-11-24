@@ -43,5 +43,8 @@
     "hooks": {
       "pre-commit": "tsdx lint src"
     }
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
