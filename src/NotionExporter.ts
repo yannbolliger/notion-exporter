@@ -127,8 +127,13 @@ export class NotionExporter {
    * @param idOrUrl BlockId or URL of the page/block/DB to export
    * @returns The extracted CSV string
    */
-  getCsvString = (idOrUrl: string): Promise<string> =>
-    this.getFileString(idOrUrl, (e) => e.name.endsWith(".csv"))
+  getCsvString = (
+    idOrUrl: string,
+    onlyCurrentView?: boolean
+  ): Promise<string> =>
+    this.getFileString(idOrUrl, (e) =>
+      e.name.endsWith(onlyCurrentView ? ".csv" : "_all.csv")
+    )
 
   /**
    * Downloads and extracts the first Markdown file of the exported block as string.
