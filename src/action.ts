@@ -4,7 +4,7 @@ import { AxiosError } from "axios"
 import { NotionExporter } from "./NotionExporter"
 
 export const FileType = ["md", "csv"] as const
-type FileType = typeof FileType[number]
+type FileType = (typeof FileType)[number]
 
 const isFileType = (s: string): s is FileType => FileType.includes(s as any)
 
