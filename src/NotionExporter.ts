@@ -12,6 +12,8 @@ interface Task {
 /** Lightweight client to export ZIP, Markdown or CSV files from a Notion block/page. */
 export class NotionExporter {
   protected readonly client: AxiosInstance
+  private readonly recursiveExport: boolean
+  private readonly noFilesIncluded: boolean
 
   /**
    * Create a new NotionExporter client. To export any blocks/pages from
@@ -21,13 +23,15 @@ export class NotionExporter {
    * @param tokenV2 – the Notion `token_v2` Cookie value
    * @param fileToken – the Notion `file_token` Cookie value
    */
-  constructor(tokenV2: string, fileToken: string) {
+  constructor(tokenV2: string, fileToken: string, noFiles: boolean, recursive: boolean = false) {
     this.client = axios.create({
       baseURL: "https://www.notion.so/api/v3/",
       headers: {
         Cookie: `token_v2=${tokenV2};file_token=${fileToken}`,
       },
     })
+    this.recursiveExport = recursive
+    this.noFilesIncluded = noFiles
   }
 
   /**
@@ -40,18 +44,21 @@ export class NotionExporter {
     const id = validateUuid(blockIdFromUrl(idOrUrl))
     if (!id) return Promise.reject(`Invalid URL or blockId: ${idOrUrl}`)
 
+    const exportOptions = Object.assign({
+      exportType: "markdown",
+      timeZone: "Europe/Zurich",
+      locale: "en",
+      collectionViewExportType: "currentView",
+      // includeContents: "no_files",
+    }, this.noFilesIncluded ? { includeContents: "no_files" }: {});
+    console.error(this.recursiveExport, exportOptions);
     const res = await this.client.post("enqueueTask", {
       task: {
         eventName: "exportBlock",
         request: {
           block: { id },
-          recursive: false,
-          exportOptions: {
-            exportType: "markdown",
-            timeZone: "Europe/Zurich",
-            locale: "en",
-            collectionViewExportType: "all",
-          },
+          recursive: this.recursiveExport,
+          exportOptions,
         },
       },
     })
@@ -129,8 +136,9 @@ export class NotionExporter {
   ): Promise<string> {
     const zip = await this.getZip(idOrUrl)
     const entry = zip.getEntries().find(predicate)
+    const payload: string | undefined = entry?.getData().toString().trim()
     return (
-      entry?.getData().toString().trim() ||
+      payload ||
       Promise.reject("Could not find file in ZIP.")
     )
   }
@@ -157,4 +165,14 @@ export class NotionExporter {
    */
   getMdString = (idOrUrl: string): Promise<string> =>
     this.getFileString(idOrUrl, (e) => e.name.endsWith(".md"))
+
+  /**
+   * Downloads ane extracts into a folder all files in the exported zip file.
+   * @param idOrUrl BlockId or URL of the page/block/DB to export
+   * @param folder The folder where the files are going to be unzipped
+   */
+  getMdFiles = async (idOrUrl: string, folder: string): Promise<void> => {
+    const zip = await this.getZipUrl(idOrUrl).then(this.getZip)
+    zip.extractAllTo(folder)
+  }
 }
