@@ -31,8 +31,10 @@ import NotionExporter from "notion-exporter"
 const tokenV2 = ...
 const fileToken = ...
 const blockId = "3af0a1e347dd40c5ba0a2c91e234b2a5"
+const nofiles = false // download also PDF and image files
+const recursive = false // download only blockId
 
-await new NotionExporter(tokenV2, fileToken).getMdString(blockId)
+await new NotionExporter(tokenV2, fileToken, nofiles, recursive).getMdString(blockId)
 ```
 
 ### API
@@ -46,7 +48,7 @@ Provide the [required Cookies](#needed-cookies) as authentification to create a
 new exporter client.
 
 ```ts
-const exporter = new NotionExporter(tokenV2: string, fileToken: string)
+const exporter = new NotionExporter(tokenV2: string, fileToken: string, nofiles: boolean, recursive: boolean)
 ```
 
 #### Methods
@@ -72,6 +74,11 @@ To get all files of the exported zip use:
 
 ```ts
 exporter.getMdFiles(blockIdOrUrl: string, folderPath: string): Promise<void>
+```
+
+Also chance to unzip all the exported files in the zip in a folder.
+```ts
+exporter.getMdFiles(blockId: string, folder: string): Promise<void>
 ```
 
 ## Needed Cookies
