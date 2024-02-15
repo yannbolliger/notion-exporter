@@ -1,11 +1,11 @@
 {
-  "name": "notion-exporter",
-  "author": "Yann Bolliger",
+  "name": "@onebeyond/notion-exporter",
+  "author": "Yann Bolliger/One Beyond",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yannbolliger/notion-exporter.git"
+    "url": "git+https://github.com/onebeyond/notion-exporter.git"
   },
-  "version": "0.5.0",
+  "version": "0.6.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -45,6 +45,6 @@
     }
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   }
 }
