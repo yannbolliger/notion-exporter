@@ -49,7 +49,6 @@ export class NotionExporter {
       timeZone: "Europe/Zurich",
       locale: "en",
       collectionViewExportType: "currentView",
-      // includeContents: "no_files",
     }, this.noFilesIncluded ? { includeContents: "no_files" }: {});
     console.error(this.recursiveExport, exportOptions);
     const res = await this.client.post("enqueueTask", {
