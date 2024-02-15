@@ -25,7 +25,7 @@ const askToken = (tokenName: string): Promise<string> => {
 const envOrAskToken = async (tokenName: string) =>
   process.env[tokenName] || (await askToken(tokenName))
 
-const action = async (blockId: string, fileType: string) => {
+const action = async (blockId: string, fileType: string, noFiles: boolean, recursive: boolean = false) => {
   if (!isFileType(fileType)) {
     console.log(`File type (-t, --type) has to be one of: ${FileType}`)
     process.exit(1)
@@ -33,7 +33,7 @@ const action = async (blockId: string, fileType: string) => {
 
   const tokenV2 = await envOrAskToken("NOTION_TOKEN")
   const fileToken = await envOrAskToken("NOTION_FILE_TOKEN")
-  const exporter = new NotionExporter(tokenV2, fileToken)
+  const exporter = new NotionExporter(tokenV2, fileToken, noFiles, recursive)
 
   const outputStr =
     fileType === "csv"
