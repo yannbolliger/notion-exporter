@@ -21,8 +21,8 @@ export const cli = (args: string[]) => {
 
     © ${pkg.author}, 2022.`
     )
-    .option('-r, --recursive', 'Export also subpages (default: false)')
-    .option('-n, --no-files', 'Don\'t export image and pdf files, only content (default: all content is exported)')
+    .option('-r, --recursive', 'Export children subpages', false)
+    .option('-a, --all-files', 'Export image and pdf files, not only content', false)
     .option("-t, --type", `File type to be exported: ${FileType}`, "md")
     //  .option("-o, --output", "Output path of the exported file, stdin if empty")
     .example(
@@ -31,6 +31,6 @@ export const cli = (args: string[]) => {
     .example("83715d7703ee4b8699b5e659a4712dd8 -t md")
     .example("3af0a1e347dd40c5ba0a2c91e234b2a5 -t csv > list.csv")
     //    .example("83715d7703ee4b8699b5e659a4712dd8 -t md -o blog.md")
-    .action((blockId, opts) => action(blockId, opts.type, opts.n && true, opts.recursive))
+    .action((blockId, opts) => action(blockId, opts.type, opts.a, opts.recursive))
     .parse(args)
 }
