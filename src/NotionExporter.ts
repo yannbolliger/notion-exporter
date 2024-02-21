@@ -96,9 +96,23 @@ export class NotionExporter {
    *
    * @returns The ZIP as an 'AdmZip' object
    */
-  getZip = async (url: string): Promise<AdmZip> => {
+  private downloadZip = async (url: string): Promise<AdmZip> => {
     const res = await this.client.get(url, { responseType: "arraybuffer" })
     return new AdmZip(res.data)
+  }
+
+  getZip = (idOrUrl: string): Promise<AdmZip> =>
+    this.getZipUrl(idOrUrl).then(this.downloadZip)
+
+  /**
+   * Downloads and extracts all files in the exported zip to the given folder.
+   *
+   * @param idOrUrl BlockId or URL of the page/block/DB to export
+   * @param path Folder path where the files are unzipped
+   */
+  getMdFiles = async (idOrUrl: string, path: string): Promise<void> => {
+    const zip = await this.getZip(idOrUrl)
+    zip.extractAllTo(path)
   }
 
   /**
@@ -113,7 +127,7 @@ export class NotionExporter {
     idOrUrl: string,
     predicate: (entry: AdmZip.IZipEntry) => boolean
   ): Promise<string> {
-    const zip = await this.getZipUrl(idOrUrl).then(this.getZip)
+    const zip = await this.getZip(idOrUrl)
     const entry = zip.getEntries().find(predicate)
     return (
       entry?.getData().toString().trim() ||
