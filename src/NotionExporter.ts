@@ -150,14 +150,4 @@ export class NotionExporter {
    */
   getMdString = (idOrUrl: string): Promise<string> =>
     this.getFileString(idOrUrl, (e) => e.name.endsWith(".md"))
-
-  /**
-   * Downloads ane extracts into a folder all files in the exported zip file.
-   * @param idOrUrl BlockId or URL of the page/block/DB to export
-   * @param folder The folder where the files are going to be unzipped
-   */
-  getMdFiles = async (idOrUrl: string, folder: string): Promise<void> => {
-    const zip = await this.getZipUrl(idOrUrl).then(this.getZip)
-    zip.extractAllTo(folder)
-  }
 }
