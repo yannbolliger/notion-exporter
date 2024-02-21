@@ -55,8 +55,8 @@ Download and extract the first file of the requested type and return it as
 string.
 
 ```ts
-exporter.getCsvString(blockId: string): Promise<string>
-exporter.getMdString(blockId: string): Promise<string>
+exporter.getCsvString(blockIdOrUrl: string): Promise<string>
+exporter.getMdString(blockIdOrUrl: string): Promise<string>
 ```
 
 Start an export of the given block and get the exported archive's URL. The
@@ -64,8 +64,14 @@ second method also downloads the ZIP and gives full access to the
 [`AdmZip`](https://github.com/cthackers/adm-zip) object.
 
 ```ts
-exporter.getZipUrl(blockId: string): Promise<string>
-exporter.getZip(url: string): Promise<AdmZip>
+exporter.getZipUrl(blockIdOrUrl: string): Promise<string>
+exporter.getZip(blockIdOrUrl: string): Promise<AdmZip>
+```
+
+To get all files of the exported zip use:
+
+```ts
+exporter.getMdFiles(blockIdOrUrl: string, folderPath: string): Promise<void>
 ```
 
 ## Needed Cookies
