@@ -135,9 +135,8 @@ export class NotionExporter {
   ): Promise<string> {
     const zip = await this.getZip(idOrUrl)
     const entry = zip.getEntries().find(predicate)
-    const payload: string | undefined = entry?.getData().toString().trim()
     return (
-      payload ||
+      entry?.getData().toString().trim() ||
       Promise.reject("Could not find file in ZIP.")
     )
   }
