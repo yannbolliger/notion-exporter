@@ -2,6 +2,7 @@ import rl from "readline"
 import { AxiosError } from "axios"
 
 import { NotionExporter } from "./NotionExporter"
+import { Config } from "./config"
 
 export const FileType = ["md", "csv"] as const
 type FileType = (typeof FileType)[number]
@@ -25,7 +26,7 @@ const askToken = (tokenName: string): Promise<string> => {
 const envOrAskToken = async (tokenName: string) =>
   process.env[tokenName] || (await askToken(tokenName))
 
-const action = async (blockId: string, fileType: string, noFiles: boolean, recursive: boolean) => {
+const action = async (blockId: string, fileType: string, config?: Config) => {
   if (!isFileType(fileType)) {
     console.log(`File type (-t, --type) has to be one of: ${FileType}`)
     process.exit(1)
@@ -33,7 +34,7 @@ const action = async (blockId: string, fileType: string, noFiles: boolean, recur
 
   const tokenV2 = await envOrAskToken("NOTION_TOKEN")
   const fileToken = await envOrAskToken("NOTION_FILE_TOKEN")
-  const exporter = new NotionExporter(tokenV2, fileToken, noFiles, recursive)
+  const exporter = new NotionExporter(tokenV2, fileToken, config)
 
   const outputStr =
     fileType === "csv"
