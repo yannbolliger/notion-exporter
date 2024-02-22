@@ -43,10 +43,11 @@ most accurate information.
 #### Constructor
 
 Provide the [required Cookies](#needed-cookies) as authentification to create a
-new exporter client.
+new exporter client. For configuration options,
+[refer to the definition](./src/config.ts).
 
 ```ts
-const exporter = new NotionExporter(tokenV2: string, fileToken: string)
+const exporter = new NotionExporter(tokenV2: string, fileToken: string, config?: Config)
 ```
 
 #### Methods
@@ -130,4 +131,5 @@ use-case? Please submit issues and PRs on Github.
 
 ### Contributors
 
-- Yann Bolliger, [@yannbolliger](https://github.com/yannbolliger).
+- Yann Bolliger, [@yannbolliger](https://github.com/yannbolliger)
+- Guillermo C. Martínez, [@telekosmos](https://github.com/telekosmos)
