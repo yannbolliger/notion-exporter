@@ -31,10 +31,8 @@ import NotionExporter from "notion-exporter"
 const tokenV2 = ...
 const fileToken = ...
 const blockId = "3af0a1e347dd40c5ba0a2c91e234b2a5"
-const allfiles = false // don't download PDF and image files
-const recursive = false // download only blockId
 
-await new NotionExporter(tokenV2, fileToken, nofiles, recursive).getMdString(blockId)
+await new NotionExporter(tokenV2, fileToken).getMdString(blockId)
 ```
 
 ### API
@@ -45,10 +43,11 @@ most accurate information.
 #### Constructor
 
 Provide the [required Cookies](#needed-cookies) as authentification to create a
-new exporter client.
+new exporter client. For configuration options,
+[refer to the definition](./src/config.ts).
 
 ```ts
-const exporter = new NotionExporter(tokenV2: string, fileToken: string, nofiles: boolean, recursive: boolean)
+const exporter = new NotionExporter(tokenV2: string, fileToken: string, config?: Config)
 ```
 
 #### Methods
@@ -132,4 +131,5 @@ use-case? Please submit issues and PRs on Github.
 
 ### Contributors
 
-- Yann Bolliger, [@yannbolliger](https://github.com/yannbolliger).
+- Yann Bolliger, [@yannbolliger](https://github.com/yannbolliger)
+- Guillermo C. Martínez, [@telekosmos](https://github.com/telekosmos)

@@ -8,10 +8,7 @@ export interface Config {
   timeZone?: string
   /** Default: en */
   locale?: string
-  /**
-   * Export all blocks of the DB/page or just the ones in the current view.
-   * Default: "all"
-   */
+  /** Export all blocks of the DB/page or just the ones in the current view. Default: "all" */
   collectionViewExportType?: "currentView" | "all"
 }
 
