@@ -49,7 +49,8 @@ export class NotionExporter {
         eventName: "exportBlock",
         request: {
           block: { id },
-          recursive,
+          // Recursive needs to be set
+          recursive: !!recursive,
           exportOptions: {
             exportType: "markdown",
             includeContents: !includeContents ? "no_files" : undefined,
