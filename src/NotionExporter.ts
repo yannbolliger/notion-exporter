@@ -69,7 +69,7 @@ export class NotionExporter {
 
   private pollTask = (
     taskId: string,
-    pollInterval: number = 50
+    pollInterval: number = 5000
   ): Promise<string> =>
     new Promise((resolve, reject) => {
       const poll = async () => {
