@@ -68,8 +68,7 @@ export class NotionExporter {
   }
 
   private pollTask = (
-    taskId: string,
-    pollInterval: number = 500
+    taskId: string
   ): Promise<string> =>
     new Promise((resolve, reject) => {
       const poll = async () => {
@@ -77,7 +76,7 @@ export class NotionExporter {
         if (task.state === "success" && task.status.exportURL)
           resolve(task.status.exportURL)
         else if (task.state === "in_progress" || task.state === "not_started") {
-          setTimeout(poll, this.config.pollInterval || pollInterval)
+          setTimeout(poll, this.config.pollInterval)
         } else {
           console.error(taskId, task)
           reject(`Export task failed: ${taskId}.`)
