@@ -11,7 +11,7 @@ export interface Config {
   /** Export all blocks of the DB/page or just the ones in the current view. Default: "all" */
   collectionViewExportType?: "currentView" | "all"
   /** Poll export task finished interval in ms */
-  pollInterval: number
+  pollInterval?: number
 }
 
 export const defaultConfig: Config = {
