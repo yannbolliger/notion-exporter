@@ -67,23 +67,21 @@ export class NotionExporter {
     return res.data.results.find((t: Task) => t.id === taskId)
   }
 
-  private pollTask = (
-    taskId: string,
-    pollInterval: number = 50
-  ): Promise<string> =>
+  private pollTask = (taskId: string): Promise<string> =>
     new Promise((resolve, reject) => {
+      const interval = this.config.pollInterval || defaultConfig.pollInterval
       const poll = async () => {
         const task = await this.getTask(taskId)
         if (task.state === "success" && task.status.exportURL)
           resolve(task.status.exportURL)
         else if (task.state === "in_progress" || task.state === "not_started") {
-          setTimeout(poll, pollInterval)
+          setTimeout(poll, interval)
         } else {
           console.error(taskId, task)
           reject(`Export task failed: ${taskId}.`)
         }
       }
-      setTimeout(poll, pollInterval)
+      setTimeout(poll, interval)
     })
 
   /**

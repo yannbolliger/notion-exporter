@@ -10,10 +10,13 @@ export interface Config {
   locale?: string
   /** Export all blocks of the DB/page or just the ones in the current view. Default: "all" */
   collectionViewExportType?: "currentView" | "all"
+  /** Poll export task finished interval in ms */
+  pollInterval?: number
 }
 
 export const defaultConfig: Config = {
   timeZone: "UTC",
   locale: "en",
   collectionViewExportType: "all",
+  pollInterval: 500,
 }
