@@ -14,7 +14,6 @@ interface Task {
 export class NotionExporter {
   protected readonly client: AxiosInstance
   private readonly config: Config
-  private readonly _DEFAULT_POLL_INTERVAL = 2000
 
   /**
    * Create a new NotionExporter client. To export any blocks/pages from
@@ -68,22 +67,21 @@ export class NotionExporter {
     return res.data.results.find((t: Task) => t.id === taskId)
   }
 
-  private pollTask = (
-    taskId: string
-  ): Promise<string> =>
+  private pollTask = (taskId: string): Promise<string> =>
     new Promise((resolve, reject) => {
+      const interval = this.config.pollInterval || defaultConfig.pollInterval
       const poll = async () => {
         const task = await this.getTask(taskId)
         if (task.state === "success" && task.status.exportURL)
           resolve(task.status.exportURL)
         else if (task.state === "in_progress" || task.state === "not_started") {
-          setTimeout(poll, this.config.pollInterval || this._DEFAULT_POLL_INTERVAL)
+          setTimeout(poll, interval)
         } else {
           console.error(taskId, task)
           reject(`Export task failed: ${taskId}.`)
         }
       }
-      setTimeout(poll, this.config.pollInterval || this._DEFAULT_POLL_INTERVAL)
+      setTimeout(poll, interval)
     })
 
   /**
