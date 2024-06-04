@@ -33,7 +33,7 @@
     "@types/adm-zip": "^0.5.5",
     "@types/uuid": "^9.0.1",
     "husky": "^6.0.0",
-    "np": "^8.0.4",
+    "np": "^10.0.5",
     "prettier": "^2.2.1",
     "prettier-plugin-jsdoc": "^0.3.18",
     "tsdx": "0.14.1",
