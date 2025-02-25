@@ -43,7 +43,8 @@ export class NotionExporter {
     const id = validateUuid(blockIdFromUrl(idOrUrl))
     if (!id) return Promise.reject(`Invalid URL or blockId: ${idOrUrl}`)
 
-    const { recursive, includeContents, ...config } = this.config
+    // extract pollInterval to not put it in request
+    const { recursive, pollInterval, ...config } = this.config
     const res = await this.client.post("enqueueTask", {
       task: {
         eventName: "exportBlock",
@@ -51,9 +52,9 @@ export class NotionExporter {
           block: { id },
           // Recursive needs to be set
           recursive: !!recursive,
+          shouldExportComments: false,
           exportOptions: {
             exportType: "markdown",
-            includeContents: !includeContents ? "no_files" : undefined,
             ...config,
           },
         },

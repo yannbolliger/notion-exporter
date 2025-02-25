@@ -20,16 +20,11 @@ export const cli = (args: string[]) => {
     environment variable or via the prompt of the command.
     The user needs to have at least read access to the block/page to download.
 
-    © ${pkg.author}, 2022.`
+    © ${pkg.author}, 2025.`
     )
 
     .option("-t, --type", `File type to be exported: ${FileType}`, "md")
     .option("-r, --recursive", "Export children subpages", false)
-    .option(
-      "-a, --all-files",
-      "Export image and pdf files, not only content",
-      false
-    )
     .example(
       "https://www.notion.so/Notion-Official-83715d7703ee4b8699b5e659a4712dd8"
     )
@@ -37,7 +32,6 @@ export const cli = (args: string[]) => {
     .example("3af0a1e347dd40c5ba0a2c91e234b2a5 -t csv > list.csv")
     .action((blockId, opts) =>
       action(blockId, opts.type, {
-        includeContents: opts["all-files"],
         recursive: opts.recursive,
       })
     )

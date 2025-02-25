@@ -1,7 +1,5 @@
 /** Configuration options that are passed to the Notion API. */
 export interface Config {
-  /** Export embedded image and pdf files, not only the (text) content. Default: false */
-  includeContents?: boolean
   /** Export children subpages recursively. Default: false */
   recursive?: boolean
   /** Default: UTC */
