@@ -1,13 +1,19 @@
-import { validate } from "uuid"
 
 export const validateUuid = (str: string | undefined): string | undefined => {
-  if (!str) return undefined
-  if (validate(str)) return str
-  const withDashes = str.replace(
-    /(.{8})(.{4})(.{4})(.{4})(.+)/,
-    "$1-$2-$3-$4-$5"
-  )
-  return validate(withDashes) ? withDashes : undefined
+  if (!str) return undefined;
+
+  // Already has dashes and is UUID-ish
+  if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str)) {
+    return str;
+  }
+
+  // Raw 32-character hex? Let's dash it up
+  if (/^[0-9a-f]{32}$/i.test(str)) {
+    const withDashes = `${str.slice(0,8)}-${str.slice(8,12)}-${str.slice(12,16)}-${str.slice(16,20)}-${str.slice(20)}`;
+    return withDashes;
+  }
+
+  return undefined;
 }
 
 export const blockIdFromUrl = (url: string): string | undefined => {
@@ -22,5 +28,6 @@ export const blockIdFromUrl = (url: string): string | undefined => {
     return undefined
   }
   const parts = parsedUrl.pathname.slice(1).split("-")
+
   return parts[parts.length - 1]
 }
