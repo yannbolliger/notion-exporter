@@ -126,10 +126,6 @@ break anytime**.
 
 ## Contributing
 
-Want to help improve this tool, spotted a type or you need to add a new
-use-case? Please submit issues and PRs on Github.
-
-### Contributors
-
-- Yann Bolliger, [@yannbolliger](https://github.com/yannbolliger)
-- Guillermo C. Martínez, [@telekosmos](https://github.com/telekosmos)
+Want to help improve this tool, spotted a typo or need to add a new use-case?
+Please submit issues and pull requests on
+[Github](https://github.com/yannbolliger/notion-exporter).
