@@ -1,6 +1,6 @@
 import { blockIdFromUrl, validateUuid } from "../src/blockId"
 
-describe("Validate UUID with and without dashes", () => {
+describe("validateUuid", () => {
   it("Validates with dashes", () => {
     expect(validateUuid("a981a0c2-68b1-35dc-bcfc-296e52ab01ec")).toEqual(
       "a981a0c2-68b1-35dc-bcfc-296e52ab01ec"
@@ -19,9 +19,9 @@ describe("Validate UUID with and without dashes", () => {
     ).toBeUndefined()
   })
 
-  it("Validates v8 UUIDs (used by Notion)", () => {
+  it("Validates dashed v8 UUID (Notion style)", () => {
     // This UUID has a version 8 characters (8xxx in the third group)
-    expect(validateUuid("1cf62d960d7f80c79960c58edb3217fd")).toEqual(
+    expect(validateUuid("1cf62d96-0d7f-80c7-9960-c58edb3217fd")).toEqual(
       "1cf62d96-0d7f-80c7-9960-c58edb3217fd"
     )
   })
@@ -38,29 +38,21 @@ describe("Validate UUID with and without dashes", () => {
     ).toBeUndefined()
     expect(validateUuid("d9428888122b1")).toBeUndefined()
   })
+
+  it("Validates v8 UUIDs (used by Notion)", () => {
+    expect(validateUuid("1cf62d960d7f80c79960c58edb3217fd")).toEqual(
+      "1cf62d96-0d7f-80c7-9960-c58edb3217fd"
+    )
+  })
 })
 
-describe("Extract UUID from Notion URL", () => {
+describe("blockIdFromUrl", () => {
   it("Leaves an already correct UUID as is", () => {
     expect(blockIdFromUrl("e0603b592edc45f7acc7b0cccd6656e1")).toEqual(
       "e0603b592edc45f7acc7b0cccd6656e1"
     )
     expect(blockIdFromUrl("a981a0c2-68b1-35dc-bcfc-296e52ab01ec")).toEqual(
       "a981a0c2-68b1-35dc-bcfc-296e52ab01ec"
-    )
-  })
-  // Notion uses non-standard UUIDs (e.g. version 8), which are valid for their API but not RFC4122
-  it("Extracts and accepts v8 UUID from a Notion.so URL", () => {
-    expect(
-      blockIdFromUrl(
-        "https://www.notion.so/Network-Engineering-1cf62d960d7f80c79960c58edb3217fd"
-      )
-    ).toBe("1cf62d960d7f80c79960c58edb3217fd")
-  })
-
-  it("Validates dashed v8 UUID (Notion style)", () => {
-    expect(validateUuid("1cf62d96-0d7f-80c7-9960-c58edb3217fd")).toEqual(
-      "1cf62d96-0d7f-80c7-9960-c58edb3217fd"
     )
   })
 
@@ -76,6 +68,15 @@ describe("Extract UUID from Notion URL", () => {
         "https://www.notion.so/Notion-Official-83715d7703ee4b8699b5e659a4712dd8"
       )
     ).toBe("83715d7703ee4b8699b5e659a4712dd8")
+  })
+
+  // Notion uses non-standard UUIDs (e.g. version 8)
+  it("Extracts and accepts v8 UUID from a Notion.so URL", () => {
+    expect(
+      blockIdFromUrl(
+        "https://www.notion.so/Network-Engineering-1cf62d960d7f80c79960c58edb3217fd"
+      )
+    ).toBe("1cf62d960d7f80c79960c58edb3217fd")
   })
 
   it("Correctly extracts DB UUID from notion.site URL", () => {
