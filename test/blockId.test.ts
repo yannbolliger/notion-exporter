@@ -49,13 +49,19 @@ describe("Extract UUID from Notion URL", () => {
       "a981a0c2-68b1-35dc-bcfc-296e52ab01ec"
     )
   })
-// Notion uses non-standard UUIDs (e.g. version 8), which are valid for their API but not RFC4122
+  // Notion uses non-standard UUIDs (e.g. version 8), which are valid for their API but not RFC4122
   it("Extracts and accepts v8 UUID from a Notion.so URL", () => {
     expect(
       blockIdFromUrl(
         "https://www.notion.so/Network-Engineering-1cf62d960d7f80c79960c58edb3217fd"
       )
     ).toBe("1cf62d960d7f80c79960c58edb3217fd")
+  })
+
+  it("Validates dashed v8 UUID (Notion style)", () => {
+    expect(validateUuid("1cf62d96-0d7f-80c7-9960-c58edb3217fd")).toEqual(
+      "1cf62d96-0d7f-80c7-9960-c58edb3217fd"
+    )
   })
 
   it("Correctly extracts page UUID from notion.site URL", () => {
