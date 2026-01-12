@@ -83,9 +83,13 @@ export class NotionExporter {
     return res.data.taskId
   }
 
-  private getTask = async (taskId: string): Promise<Task> => {
+  private getTask = async (taskId: string): Promise<Task | undefined> => {
     const res = await this.client.post("getTasks", { taskIds: [taskId] })
-    return res.data.results.find((t: Task) => t.id === taskId)
+    const task = res.data.results.find((t: Task) => t.id === taskId)
+    if (!task) {
+      console.warn(`No task was returned from API: ${res}`)
+    }
+    return task
   }
 
   private pollTask = (taskId: string): Promise<string> =>
@@ -93,9 +97,12 @@ export class NotionExporter {
       const interval = this.config.pollInterval || defaultConfig.pollInterval
       const poll = async () => {
         const task = await this.getTask(taskId)
-        if (task.state === "success" && task.status.exportURL)
+        if (task?.state === "success" && task.status.exportURL)
           resolve(task.status.exportURL)
-        else if (task.state === "in_progress" || task.state === "not_started") {
+        else if (
+          task?.state === "in_progress" ||
+          task?.state === "not_started"
+        ) {
           setTimeout(poll, interval)
         } else {
           console.error(taskId, task)

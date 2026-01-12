@@ -16,5 +16,5 @@ export const defaultConfig: Config = {
   timeZone: "UTC",
   locale: "en",
   collectionViewExportType: "all",
-  pollInterval: 500,
+  pollInterval: 1000,
 }
