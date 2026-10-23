@@ -25,17 +25,17 @@
     "cli": "node bin"
   },
   "dependencies": {
-    "adm-zip": "^0.5.16",
+    "adm-zip": "^0.6.1",
     "sade": "^1.8.1",
-    "uuid": "11.1.0"
+    "uuid": "^11.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
-    "@rstest/core": "^0.2.1",
+    "@rstest/core": "^0.12.4",
     "@types/adm-zip": "^0.5.5",
     "@types/uuid": "^9.0.1",
     "eslint": "^9.33.0",
-    "np": "^10.2.0",
+    "np": "^12.1.1",
     "prettier": "^3.6.2",
     "prettier-plugin-jsdoc": "^0.3.18",
     "tsup": "^8.5.0",
