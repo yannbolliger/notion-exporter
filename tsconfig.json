@@ -1,7 +1,6 @@
 {
   "include": ["src"],
   "compilerOptions": {
-    "target": "es2016",
     "strict": true,
     "isolatedModules": true,
     "module": "nodenext",

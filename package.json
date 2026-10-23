@@ -12,7 +12,10 @@
   "files": [
     "dist"
   ],
-  "module": "dist/index.mjs",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
   "bin": "./bin/index.js",
   "scripts": {
     "build": "tsup",
@@ -40,6 +43,6 @@
     "typescript-eslint": "^8.39.1"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   }
 }
