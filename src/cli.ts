@@ -1,6 +1,5 @@
 import sade from "sade"
 import rl from "readline"
-import { AxiosError } from "axios"
 
 import { fileTokenName, NotionExporter, tokenV2Name } from "./NotionExporter"
 import { Config } from "./config"
@@ -46,13 +45,7 @@ const action = async (blockId: string, fileType: string, config?: Config) => {
       : exporter.getMdString(blockId)
 
   outputStr.then(console.log).catch((e) => {
-    if (e?.isAxiosError) {
-      const axiosError = e as AxiosError
-      console.log(axiosError.message)
-      console.log(axiosError.response?.data)
-    } else {
-      console.log(e)
-    }
+    console.log(e)
     process.exit(1)
   })
 }
@@ -69,7 +62,7 @@ export const cli = (args: string[]) => {
     '${fileTokenName}' environment variable or via prompt. The user needs to 
     have at least read access to the block/page to download.
 
-    © ${pkg.author}, 2025.`,
+    © ${pkg.author}, 2026.`,
     )
 
     .option("-t, --type", `File type to be exported: ${FileType}`, "md")
